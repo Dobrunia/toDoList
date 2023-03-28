@@ -8,9 +8,10 @@ type TaskType = {
 
 type HeaderType = {
     header: string,
-    header2?: number,
-    tasks : Array<TaskType>
+    tasks : Array<TaskType>,
+    removeTask : Function
 }
+
 
 export const Todolist = (props: HeaderType) => {
     return (
@@ -24,7 +25,11 @@ export const Todolist = (props: HeaderType) => {
                 <ul>
                     {props.tasks.map((e) => {
                         return(
-                            <li key={e.id}><input type="checkbox" checked={e.isDone} /> <span>{e.title}</span></li>
+                            <li key={e.id}>
+                                <input type="checkbox" checked={e.isDone} />
+                                <span>{e.title}</span>
+                                <button onClick={() => props.removeTask(e.id)}>X</button>
+                            </li>
                         )
                     })}
                 </ul>
