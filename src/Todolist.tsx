@@ -1,6 +1,7 @@
 import React from "react";
+import { FiltersTasksType } from "./App";
 
-type TaskType = {
+export type TaskType = {
     id: number,
     title : string,
     isDone : boolean
@@ -9,7 +10,8 @@ type TaskType = {
 type HeaderType = {
     header: string,
     tasks : Array<TaskType>,
-    removeTask : Function
+    removeTask : (id : number) => void,
+    changeFilter : (value : FiltersTasksType) => void
 }
 
 
@@ -34,9 +36,9 @@ export const Todolist = (props: HeaderType) => {
                     })}
                 </ul>
                 <div>
-                    <button>All</button>
-                    <button>Active</button>
-                    <button>Completed</button>
+                    <button onClick={() => props.changeFilter("all")}>All</button>
+                    <button onClick={() => props.changeFilter("active")}>Active</button>
+                    <button onClick={() => props.changeFilter("completed")}>Completed</button>
                 </div>
             </div>
         </div>
