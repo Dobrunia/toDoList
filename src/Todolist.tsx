@@ -1,20 +1,32 @@
-import React from "react";
-import { FiltersTasksType } from "./App";
+import React, { useState } from "react";
 
 export type TaskType = {
   id: number;
   title: string;
   isDone: boolean;
 };
+type FiltersTasksType = "all" | "completed" | "active";
 
 type HeaderType = {
   header: string;
   tasks: Array<TaskType>;
-  removeTask: (id: number) => void;
-  changeFilter: (value: FiltersTasksType) => void;
+  removeTask: (e: number) => void;
 };
 
 export const Todolist = (props: HeaderType) => {
+  let [filter, setFilter] = useState<FiltersTasksType>();
+
+  function changeFilter(value: FiltersTasksType) {
+    setFilter(value);
+  }
+
+  let tasksForToDoList = props.tasks;
+  if (filter === "completed") {
+    tasksForToDoList = props.tasks.filter((e) => e.isDone === true);
+  } else if (filter === "active") {
+    tasksForToDoList = props.tasks.filter((e) => e.isDone === false);
+  }
+
   return (
     <div className="Todolist">
       <div>
@@ -24,7 +36,7 @@ export const Todolist = (props: HeaderType) => {
           <button>+</button>
         </div>
         <ul>
-          {props.tasks.map((e) => {
+          {tasksForToDoList.map((e) => {
             return (
               <li key={e.id}>
                 <input type="checkbox" checked={e.isDone} />
@@ -35,11 +47,9 @@ export const Todolist = (props: HeaderType) => {
           })}
         </ul>
         <div>
-          <button onClick={() => props.changeFilter("all")}>All</button>
-          <button onClick={() => props.changeFilter("active")}>Active</button>
-          <button onClick={() => props.changeFilter("completed")}>
-            Completed
-          </button>
+          <button onClick={() => changeFilter("all")}>All</button>
+          <button onClick={() => changeFilter("active")}>Active</button>
+          <button onClick={() => changeFilter("completed")}>Completed</button>
         </div>
       </div>
     </div>
