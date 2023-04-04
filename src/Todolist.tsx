@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
+import { v1 } from "uuid";
 
 export type TaskType = {
-  id: number;
+  id: string;
   title: string;
   isDone: boolean;
 };
+
 type FiltersTasksType = "all" | "completed" | "active";
 
 type HeaderType = {
@@ -13,14 +15,15 @@ type HeaderType = {
 
 export const Todolist = (props: HeaderType) => {
   let [tasks, setTasks] = useState<Array<TaskType>>(props.tasks);
-
-  function removeTask(id: number) {
-    setTasks(tasks.filter((f) => f.id !== id));
-  }
   let [filter, setFilter] = useState<FiltersTasksType>();
 
-  function changeFilter(value: FiltersTasksType) {
-    setFilter(value);
+  function addTasks() {
+    if (newTasktitle !== "") {
+      let newTask = { id: v1(), title: newTasktitle, isDone: false };
+      let newTasks = [newTask, ...tasks];
+      setNewTasktitle("");
+      setTasks(newTasks);
+    }
   }
 
   const collanderFoo = () => {
@@ -33,29 +36,38 @@ export const Todolist = (props: HeaderType) => {
     return tasksForToDoList;
   };
 
+  const [newTasktitle, setNewTasktitle] = useState("");
+  function onChangeInput(e: ChangeEvent<HTMLInputElement>) {
+    setNewTasktitle(e.currentTarget.value);
+  }
+
   return (
     <div className="Todolist">
       <div>
         <h3>{}</h3>
         <div>
-          <input />
-          <button>+</button>
+          <input value={newTasktitle} onChange={onChangeInput} />
+          <button onClick={addTasks}>+</button>
         </div>
         <ul>
           {collanderFoo().map((e) => {
+            function removeTask() {
+              setTasks(tasks.filter((f) => f.id !== e.id));
+            }
+
             return (
               <li key={e.id}>
                 <input type="checkbox" checked={e.isDone} />
                 <span>{e.title}</span>
-                <button onClick={() => removeTask(e.id)}>X</button>
+                <button onClick={removeTask}>X</button>
               </li>
             );
           })}
         </ul>
         <div>
-          <button onClick={() => changeFilter("all")}>All</button>
-          <button onClick={() => changeFilter("active")}>Active</button>
-          <button onClick={() => changeFilter("completed")}>Completed</button>
+          <button onClick={() => setFilter("all")}>All</button>
+          <button onClick={() => setFilter("active")}>Active</button>
+          <button onClick={() => setFilter("completed")}>Completed</button>
         </div>
       </div>
     </div>
