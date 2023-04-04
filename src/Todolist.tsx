@@ -8,40 +8,46 @@ export type TaskType = {
 type FiltersTasksType = "all" | "completed" | "active";
 
 type HeaderType = {
-  header: string;
   tasks: Array<TaskType>;
-  removeTask: (e: number) => void;
 };
 
 export const Todolist = (props: HeaderType) => {
+  let [tasks, setTasks] = useState<Array<TaskType>>(props.tasks);
+
+  function removeTask(id: number) {
+    setTasks(tasks.filter((f) => f.id !== id));
+  }
   let [filter, setFilter] = useState<FiltersTasksType>();
 
   function changeFilter(value: FiltersTasksType) {
     setFilter(value);
   }
 
-  let tasksForToDoList = props.tasks;
-  if (filter === "completed") {
-    tasksForToDoList = props.tasks.filter((e) => e.isDone === true);
-  } else if (filter === "active") {
-    tasksForToDoList = props.tasks.filter((e) => e.isDone === false);
-  }
+  const collanderFoo = () => {
+    let tasksForToDoList = tasks;
+    if (filter === "completed") {
+      tasksForToDoList = tasks.filter((e) => e.isDone === true);
+    } else if (filter === "active") {
+      tasksForToDoList = tasks.filter((e) => e.isDone === false);
+    }
+    return tasksForToDoList;
+  };
 
   return (
     <div className="Todolist">
       <div>
-        <h3>{props.header}</h3>
+        <h3>{}</h3>
         <div>
           <input />
           <button>+</button>
         </div>
         <ul>
-          {tasksForToDoList.map((e) => {
+          {collanderFoo().map((e) => {
             return (
               <li key={e.id}>
                 <input type="checkbox" checked={e.isDone} />
                 <span>{e.title}</span>
-                <button onClick={() => props.removeTask(e.id)}>X</button>
+                <button onClick={() => removeTask(e.id)}>X</button>
               </li>
             );
           })}
