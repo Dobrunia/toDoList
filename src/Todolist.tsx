@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import { v1 } from "uuid";
 
 export type TaskType = {
@@ -41,12 +41,22 @@ export const Todolist = (props: HeaderType) => {
     setNewTasktitle(e.currentTarget.value);
   }
 
+  function onEnterAdd(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Enter") {
+      addTasks();
+    }
+  }
+
   return (
     <div className="Todolist">
       <div>
         <h3>{}</h3>
         <div>
-          <input value={newTasktitle} onChange={onChangeInput} />
+          <input
+            value={newTasktitle}
+            onChange={onChangeInput}
+            onKeyPress={onEnterAdd}
+          />
           <button onClick={addTasks}>+</button>
         </div>
         <ul>
