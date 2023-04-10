@@ -16,6 +16,7 @@ type HeaderType = {
 export const Todolist = (props: HeaderType) => {
   let [tasks, setTasks] = useState<Array<TaskType>>(props.tasks);
   let [filter, setFilter] = useState<FiltersTasksType>();
+  const [newTasktitle, setNewTasktitle] = useState("");
 
   function addTasks() {
     if (newTasktitle !== "") {
@@ -36,7 +37,6 @@ export const Todolist = (props: HeaderType) => {
     return tasksForToDoList;
   };
 
-  const [newTasktitle, setNewTasktitle] = useState("");
   function onChangeInput(e: ChangeEvent<HTMLInputElement>) {
     setNewTasktitle(e.currentTarget.value);
   }
