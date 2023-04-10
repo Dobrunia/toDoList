@@ -27,7 +27,7 @@ export const Todolist = (props: HeaderType) => {
     }
   }
 
-  const collanderFoo = () => {
+  function collanderFoo() {
     let tasksForToDoList = tasks;
     if (filter === "completed") {
       tasksForToDoList = tasks.filter((e) => e.isDone === true);
