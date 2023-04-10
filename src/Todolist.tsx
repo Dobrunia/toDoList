@@ -15,7 +15,7 @@ type HeaderType = {
 
 export const Todolist = (props: HeaderType) => {
   let [tasks, setTasks] = useState<Array<TaskType>>(props.tasks);
-  let [filter, setFilter] = useState<FiltersTasksType>();
+  let [filter, setFilter] = useState<FiltersTasksType>("all");
   const [newTasktitle, setNewTasktitle] = useState("");
 
   function addTasks() {
