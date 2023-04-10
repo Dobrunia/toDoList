@@ -55,7 +55,7 @@ export const Todolist = (props: HeaderType) => {
           <input
             value={newTasktitle}
             onChange={onChangeInput}
-            onKeyPress={onEnterAdd}
+            onKeyDown={onEnterAdd}
           />
           <button onClick={addTasks}>+</button>
         </div>
