@@ -5,13 +5,13 @@ export type TaskType = {
   id: string;
   title: string;
   isDone: boolean;
-}
+};
 
 type FiltersTasksType = "all" | "completed" | "active";
 
 type HeaderType = {
   tasks: Array<TaskType>;
-}
+};
 
 export const Todolist = (props: HeaderType) => {
   let [tasks, setTasks] = useState<Array<TaskType>>(props.tasks);
