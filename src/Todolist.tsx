@@ -5,13 +5,13 @@ export type TaskType = {
   id: string;
   title: string;
   isDone: boolean;
-};
+}
 
 type FiltersTasksType = "all" | "completed" | "active";
 
 type HeaderType = {
   tasks: Array<TaskType>;
-};
+}
 
 export const Todolist = (props: HeaderType) => {
   let [tasks, setTasks] = useState<Array<TaskType>>(props.tasks);
@@ -35,7 +35,7 @@ export const Todolist = (props: HeaderType) => {
       tasksForToDoList = tasks.filter((e) => e.isDone === false);
     }
     return tasksForToDoList;
-  };
+  }
 
   function onChangeInput(e: ChangeEvent<HTMLInputElement>) {
     setNewTasktitle(e.currentTarget.value);
