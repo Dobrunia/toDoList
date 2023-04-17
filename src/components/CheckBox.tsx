@@ -23,6 +23,7 @@ export function CheckBox(props: PropsType) {
     }
     props.setTasks([...props.tasks]);
   }
+
   return (
     <ul>
       {props.tasksForToDoList.map((e) => {
