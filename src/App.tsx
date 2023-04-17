@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { TaskType, Todolist } from "./Todolist";
+import { TaskType, Todolist } from "./components/Todolist";
 import { v1 } from "uuid";
 
 function App() {

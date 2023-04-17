@@ -1,5 +1,8 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import styles from "./Todolist.module.css";
 import { v1 } from "uuid";
+import { CheckBox } from "./CheckBox";
+import { Button } from "./Button";
 
 export type TaskType = {
   id: string;
@@ -7,23 +10,25 @@ export type TaskType = {
   isDone: boolean;
 };
 
-type FiltersTasksType = "all" | "completed" | "active";
+export type FiltersTasksType = "all" | "completed" | "active";
 
 type HeaderType = {
   tasks: Array<TaskType>;
 };
 
 export const Todolist = (props: HeaderType) => {
-  let [tasks, setTasks] = useState<Array<TaskType>>(props.tasks);
-  let [filter, setFilter] = useState<FiltersTasksType>("all");
+  const [tasks, setTasks] = useState<Array<TaskType>>(props.tasks);
+  const [filter, setFilter] = useState<FiltersTasksType>("all");
   const [newTasktitle, setNewTasktitle] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   function addTasks() {
-    if (newTasktitle !== "") {
-      let newTask = { id: v1(), title: newTasktitle, isDone: false };
-      let newTasks = [newTask, ...tasks];
+    if (newTasktitle.trim() !== "") {
+      const newTask = { id: v1(), title: newTasktitle.trim(), isDone: false };
       setNewTasktitle("");
-      setTasks(newTasks);
+      setTasks([newTask, ...tasks]);
+    } else {
+      setError("Title ir required!");
     }
   }
 
@@ -38,6 +43,7 @@ export const Todolist = (props: HeaderType) => {
   }
 
   function onChangeInput(e: ChangeEvent<HTMLInputElement>) {
+    setError(null);
     setNewTasktitle(e.currentTarget.value);
   }
 
@@ -50,34 +56,25 @@ export const Todolist = (props: HeaderType) => {
   return (
     <div className="Todolist">
       <div>
-        <h3>{}</h3>
         <div>
           <input
+            className={error ? styles.error : ""}
             value={newTasktitle}
             onChange={onChangeInput}
             onKeyDown={onEnterAdd}
           />
           <button onClick={addTasks}>+</button>
         </div>
-        <ul>
-          {collanderFoo().map((e) => {
-            function removeTask() {
-              setTasks(tasks.filter((f) => f.id !== e.id));
-            }
-
-            return (
-              <li key={e.id}>
-                <input type="checkbox" checked={e.isDone} />
-                <span>{e.title}</span>
-                <button onClick={removeTask}>X</button>
-              </li>
-            );
-          })}
-        </ul>
+        {error && <div className={styles.errorMessage}>{error}</div>}
+        <CheckBox
+          tasksForToDoList={collanderFoo()}
+          tasks={tasks}
+          setTasks={setTasks}
+        />
         <div>
-          <button onClick={() => setFilter("all")}>All</button>
-          <button onClick={() => setFilter("active")}>Active</button>
-          <button onClick={() => setFilter("completed")}>Completed</button>
+          <Button name={"all"} filter={filter} setFilter={setFilter}/>
+          <Button name={"completed"} filter={filter} setFilter={setFilter}/>
+          <Button name={"active"} filter={filter} setFilter={setFilter}/>
         </div>
       </div>
     </div>
